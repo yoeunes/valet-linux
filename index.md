@@ -1,9 +1,29 @@
 <p align="center"><img src="https://cdn.rawgit.com/wiki/cpriego/valet-linux/images/valet.svg"></p>
 
-### WARNING
-Please **do not, under any circumstance, install valet with root OR the `sudo` command**. Kittens could die.
+* [Requirements: Ubuntu](https://github.com/cpriego/valet-linux/wiki/Requirements:%20Ubuntu)
+* [Requirements: Fedora](https://github.com/cpriego/valet-linux/wiki/Requirements:%20Fedora)
+* [Requirements: Arch](https://github.com/cpriego/valet-linux/wiki/Requirements:%20Arch)
+* [Upgrade to Valet 2](https://github.com/cpriego/valet-linux/wiki/Upgrade-to-Valet-2)
+* [F.A.Q.](https://github.com/cpriego/valet-linux/wiki/FAQ)
 
-### Introduction
+- [Introduction](#introduction)
+    - [Valet Or Homestead](#valet-or-homestead)
+- [Installation](#installation)
+    - [Upgrading](#upgrading)
+- [Serving Sites](#serving-sites)
+    - [The "Park" Command](#the-park-command)
+    - [The "Link" Command](#the-link-command)
+    - [Securing Sites With TLS](#securing-sites)
+- [Sharing Sites](#sharing-sites)
+- [Custom Valet Drivers](#custom-valet-drivers)
+    - [Local Drivers](#local-drivers)
+- [Other Valet Commands](#other-valet-commands)
+
+### WARNING
+Please **do not, under any circumstance, install valet with** root **or the** `sudo` **command**. Kittens could die.
+
+<a name="introduction"></a>
+## Introduction
 
 Valet *Linux* is a Laravel development environment for Linux minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
@@ -56,6 +76,11 @@ Valet will automatically start its daemon each time your machine boots. There is
 By default, Valet serves your projects using the `.dev` TLD. If you'd like to use another domain, you can do so using the `valet domain tld-name` command.
 
 For example, if you'd like to use `.app` instead of `.dev`, run `valet domain app` and Valet will start serving your projects at `*.app` automatically.
+
+<a name="upgrading"></a>
+### Upgrading
+
+You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
 <a name="serving-sites"></a>
 ## Serving Sites
@@ -153,7 +178,4 @@ Command  | Description
 `valet status` | View Valet services status.
 `valet uninstall` | Uninstall the Valet daemon entirely.
 
-## Update
-
-To update your Valet package just run: `composer global update`
 
