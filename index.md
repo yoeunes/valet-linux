@@ -6,6 +6,7 @@
 * [F.A.Q.](https://github.com/cpriego/valet-linux/wiki/FAQ)
 
 <h1 align="center"><img src="https://cdn.rawgit.com/wiki/cpriego/valet-linux/images/valet.svg"></h1>
+
 - [Introduction](#introduction)
     - [Valet Or Homestead](#valet-or-homestead)
 - [Installation](#installation)
@@ -22,8 +23,7 @@
 #### WARNING
 Please **do not, under any circumstance, install valet with** root **or the** `sudo` **command**. Kittens could die.
 
-<a name="introduction"></a>
-## Introduction
+## <a name="introduction">Introduction</a>
 
 Valet *Linux* is a Laravel development environment for Linux minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
@@ -56,7 +56,7 @@ Valet _Linux_ requires you to install PHP and a database server directly onto yo
 
 Both Valet and Homestead are great choices for configuring your Laravel development environment. Which one you choose will depend on your personal taste and your team's needs.
 
-## Installation
+## <a name="installation">Installation</a>
 
 __Valet *Linux* is installed as a `composer` global package. You need to have composer installed in your system and ideally have the composer global tools added to your `PATH`.__
 
@@ -87,7 +87,8 @@ You may update your Valet installation using the `composer global update` comman
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
 
-**<a name="the-park-command">The `park` Command**</a>
+<a name="the-park-command"></a>
+**The `park` Command**
 
 - Create a new directory on your machine by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
 - Next, create a new Laravel site within this directory: `laravel new blog`.
@@ -95,7 +96,8 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 **That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.dev` convention.
 
-**<a name="the-link-command">The `link` Command**</a>
+<a name="the-link-command"></a>
+**The `link` Command**
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 
@@ -152,8 +154,8 @@ To "unsecure" a site and revert back to serving its traffic over plain HTTP, use
 
     valet unsecure laravel
 
-<a name="sharing-sites"></a>
-## Sharing Sites
+
+## <a name="sharing-sites">Sharing Sites</a>
 
 Valet even includes a command to share your local sites with the world. No additional software installation is required once Valet is installed.
 
@@ -163,8 +165,8 @@ To stop sharing your site, hit `Control + C` to cancel the process.
 
 > `valet share` does not currently support sharing sites that have been secured using the `valet secure` command.
 
-<a name="other-valet-commands"></a>
-## Other Valet Commands
+
+## <a name="other-valet-commands">Other Valet Commands</a>
 
 Command  | Description
 ------------- | -------------
