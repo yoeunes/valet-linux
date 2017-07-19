@@ -82,13 +82,12 @@ For example, if you'd like to use `.app` instead of `.dev`, run `valet domain ap
 
 You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
-<a name="serving-sites"></a>
-## Serving Sites
+
+## <a name="serving-sites">Serving Sites</a>
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
 
-<a name="the-park-command"></a>
-**The `park` Command**
+**<a name="the-park-command">The `park` Command**</a>
 
 - Create a new directory on your machine by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
 - Next, create a new Laravel site within this directory: `laravel new blog`.
@@ -96,8 +95,7 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 **That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.dev` convention.
 
-<a name="the-link-command"></a>
-**The `link` Command**
+**<a name="the-link-command">The `link` Command**</a>
 
 The `link` command may also be used to serve your Laravel sites. This command is useful if you want to serve a single site in a directory and not the entire directory.
 
