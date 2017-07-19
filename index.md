@@ -1,4 +1,3 @@
-<p align="center"><img src="https://cdn.rawgit.com/wiki/cpriego/valet-linux/images/valet.svg"></p>
 
 * [Requirements: Ubuntu](https://github.com/cpriego/valet-linux/wiki/Requirements:%20Ubuntu)
 * [Requirements: Fedora](https://github.com/cpriego/valet-linux/wiki/Requirements:%20Fedora)
@@ -6,6 +5,7 @@
 * [Upgrade to Valet 2](https://github.com/cpriego/valet-linux/wiki/Upgrade-to-Valet-2)
 * [F.A.Q.](https://github.com/cpriego/valet-linux/wiki/FAQ)
 
+<h1 align="center"><img src="https://cdn.rawgit.com/wiki/cpriego/valet-linux/images/valet.svg"></h1>
 - [Introduction](#introduction)
     - [Valet Or Homestead](#valet-or-homestead)
 - [Installation](#installation)
@@ -19,7 +19,7 @@
     - [Local Drivers](#local-drivers)
 - [Other Valet Commands](#other-valet-commands)
 
-### WARNING
+#### WARNING
 Please **do not, under any circumstance, install valet with** root **or the** `sudo` **command**. Kittens could die.
 
 <a name="introduction"></a>
