@@ -1,0 +1,8 @@
+vendor/
+composer.lock
+error.log
+*.sublime-project
+*.sublime-workspace
+psysh
+Gemfile
+Gemfile.lock

@@ -24,8 +24,8 @@ body {
     color: $color__gray;
     font-family: $font;
     font-size: 16px;
-    // background: #fff url('../cloud-bar.png') repeat-x;
-    padding-top: 0px;
+    background: #fff url('../cloud-bar.png') repeat-x;
+    padding-top: 10px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -34,6 +34,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .page-header {
+    display: none;
     color: #fff;
     text-align: center;
     background-color: #f4645f;
@@ -60,31 +61,53 @@ h1, h2, h3, h4, h5, h6 {
         margin: 10px 0 20px;
         strong { -webkit-font-smoothing: antialiased; }
     }
+    
+    pre.highlight {
+        border: none;
+        box-shadow: 0 1px 1px rgba(0,0,0,.125);
+        background: $color__faint;
+        code {
+            color: $color__salmon;
+            // font-weight: 400;
+            font-size: 11px;
+            text-shadow: 0 1px 0px #fff;
+        }
+    }
 
-
-    p code {
+    code.highlighter-rouge {
         background: $color__faint;
         color: $color__salmon;
         padding: 1px 5px;
         border-radius: 3px;
+        font-family: source-code-pro, monospace;
+        // font-weight: 400;
+        font-size: 11px;
+        text-shadow: 0 1px 0px #fff;
+        box-shadow: 0 1px 1px rgba(0,0,0,.125);
     }
 
-    code, kbd, pre, samp {
+    pre code, kbd, pre, samp {
         font-family: source-code-pro, monospace;
-        font-size: 14px;
+        font-size: 11px;
     }
 
     blockquote {
-        background: $color__salmon;
+        background: $color__darker_salmon;
         color: #fff;
         border-radius: 3px;
         margin: 10px 0 20px;
         padding: 10px 15px;
+        border: none;
+        box-shadow: 0 1px 1px rgba(0,0,0,.125);
 
         p:last-child { margin: 0; }
         a { color: #fff; }
     }
 
+    blockquote.tip {
+        background-color: #64B5F6;
+    }
+    
     ul {
         font-size: 14px;
     }
