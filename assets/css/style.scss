@@ -11,6 +11,7 @@ $color__gray:           #525252;
 $color__light_gray:     #aeaeae;
 $color__lighter_gray:   #dee0df;
 $color__teal:           #27b4a8;
+$color__blue:           #64B5F6;
 
 // Fonts //
 $font:         'Source Sans Pro', sans-serif;
@@ -31,7 +32,6 @@ body {
 h1, h2, h3, h4, h5, h6 {
     -webkit-font-smoothing: antialiased;
 }
-
 
 .page-header {
     display: none;
@@ -61,13 +61,17 @@ h1, h2, h3, h4, h5, h6 {
         margin: 10px 0 20px;
         strong { -webkit-font-smoothing: antialiased; }
     }
+
+    code, kbd, pre, samp { 
+        font-family: $font_code; 
+    }
     
     pre.highlight {
         border: none;
         box-shadow: 0 1px 1px rgba(0,0,0,.125);
         background: $color__faint;
         code {
-            color: $color__salmon;
+            // color: $color__salmon;
             // font-weight: 400;
             font-size: 11px;
             text-shadow: 0 1px 0px #fff;
@@ -79,20 +83,33 @@ h1, h2, h3, h4, h5, h6 {
         color: $color__salmon;
         padding: 1px 5px;
         border-radius: 3px;
-        font-family: source-code-pro, monospace;
         // font-weight: 400;
         font-size: 11px;
         text-shadow: 0 1px 0px #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.125);
     }
+    
+    code.highlighter-rouge.language-php {
+        color: $color__blue;
+    }
+
+    .highlight {
+        .p, .sd { color: #999;}
+        .s1 { color: #2E7D32;}
+        .kc { font-weight: normal; color: $color__salmon;}
+        .k { font-weight: normal; color: #07a;}
+        .nv { color: $color__blue;}
+        .o, .nb, .nf { color: $color__gray;}
+        .nx, .nc { color: $color__gray;}
+    }
 
     pre code, kbd, pre, samp {
-        font-family: source-code-pro, monospace;
+        color: $color__gray;
         font-size: 11px;
     }
 
     blockquote {
-        background: $color__darker_salmon;
+        background: $color__salmon;
         color: #fff;
         border-radius: 3px;
         margin: 10px 0 20px;
@@ -105,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     blockquote.tip {
-        background-color: #64B5F6;
+        background-color: $color__blue;
     }
     
     ul {

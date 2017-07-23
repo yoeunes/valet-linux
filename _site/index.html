@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=d86bfd264e3e926f8782638d13e664033604b93c">
+    <link rel="stylesheet" href="/assets/css/style.css?v=30f582a2365dc353d0c9d47951d920496bf7d9bc">
   </head>
   <body>
     <section class="page-header">
@@ -104,7 +104,7 @@
 </blockquote>
 
 <blockquote>
-  <p>Before installation, you should review your system specific requirements and make sure that no other programs such as Apache or Nginx are binding to your local machine’s port 80.</p>
+  <p>Before installation, you should review your system specific <a href="requirements">requirements</a> and make sure that no other programs such as Apache or Nginx are binding to your local machine’s port 80.</p>
 </blockquote>
 
 <blockquote>
@@ -213,6 +213,119 @@
 <blockquote>
   <p><code class="highlighter-rouge">valet share</code> does not currently support sharing sites that have been secured using the <code class="highlighter-rouge">valet secure</code> command.</p>
 </blockquote>
+
+<h2 id="custom-valet-drivers"><a name="custom-valet-drivers">Custom Valet Drivers</a></h2>
+
+<p>You can write your own Valet “driver” to serve PHP applications running on another framework or CMS that is not natively supported by Valet. When you install Valet, a <code class="highlighter-rouge">~/.valet/Drivers</code> directory is created which contains a <code class="highlighter-rouge">SampleValetDriver.php</code> file. This file contains a sample driver implementation to demonstrate how to write a custom driver. Writing a driver only requires you to implement three methods: <code class="highlighter-rouge">serves</code>, <code class="highlighter-rouge">isStaticFile</code>, and <code class="highlighter-rouge">frontControllerPath</code>.</p>
+
+<p>All three methods receive the <code class="language-php highlighter-rouge">$sitePath</code>, <code class="language-php highlighter-rouge">$siteName</code>, and <code class="language-php highlighter-rouge">$uri</code> values as their arguments. The <code class="language-php highlighter-rouge">$sitePath</code> is the fully qualified path to the site being served on your machine, such as <code class="highlighter-rouge">/Users/Lisa/Sites/my-project</code>. The <code class="language-php highlighter-rouge">$siteName</code> is the “host” / “site name” portion of the domain (<code class="highlighter-rouge">my-project</code>). The <code class="language-php highlighter-rouge">$uri</code> is the incoming request URI (<code class="highlighter-rouge">/foo/bar</code>).</p>
+
+<p>Once you have completed your custom Valet driver, place it in the <code class="highlighter-rouge">~/.valet/Drivers</code> directory using the <code class="highlighter-rouge">FrameworkValetDriver.php</code> naming convention. For example, if you are writing a custom valet driver for WordPress, your file name should be <code class="highlighter-rouge">WordPressValetDriver.php</code>.</p>
+
+<p>Let’s take a look at a sample implementation of each method your custom Valet driver should implement.</p>
+
+<h4 id="the-serves-method">The <code class="highlighter-rouge">serves</code> Method</h4>
+
+<p>The <code class="highlighter-rouge">serves</code> method should return <code class="highlighter-rouge">true</code> if your driver should handle the incoming request. Otherwise, the method should return <code class="highlighter-rouge">false</code>. So, within this method you should attempt to determine if the given <code class="language-php highlighter-rouge">$sitePath</code> contains a project of the type you are trying to serve.</p>
+
+<p>For example, let’s pretend we are writing a <code class="highlighter-rouge">WordPressValetDriver</code>. Our serve method might look something like this:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="sd">/**
+     * Determine if the driver serves the request.
+     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
+     * @return bool
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">serves</span><span class="p">(</span><span class="nv">$sitePath</span><span class="p">,</span> <span class="nv">$siteName</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">is_dir</span><span class="p">(</span><span class="nv">$sitePath</span><span class="o">.</span><span class="s1">'/wp-admin'</span><span class="p">);</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<h4 id="the-isstaticfile-method">The <code class="highlighter-rouge">isStaticFile</code> Method</h4>
+
+<p>The <code class="highlighter-rouge">isStaticFile</code> should determine if the incoming request is for a file that is “static”, such as an image or a stylesheet. If the file is static, the method should return the fully qualified path to the static file on disk. If the incoming request is not for a static file, the method should return <code class="highlighter-rouge">false</code>:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="sd">/**
+     * Determine if the incoming request is for a static file.
+     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
+     * @return string|false
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isStaticFile</span><span class="p">(</span><span class="nv">$sitePath</span><span class="p">,</span> <span class="nv">$siteName</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$staticFilePath</span> <span class="o">=</span> <span class="nv">$sitePath</span><span class="o">.</span><span class="s1">'/public/'</span><span class="o">.</span><span class="nv">$uri</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$staticFilePath</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<blockquote>
+  <p>The <code class="highlighter-rouge">isStaticFile</code> method will only be called if the <code class="highlighter-rouge">serves</code> method returns <code class="highlighter-rouge">true</code> for the incoming request and the request URI is not <code class="highlighter-rouge">/</code>.</p>
+</blockquote>
+
+<h4 id="the-frontcontrollerpath-method">The <code class="highlighter-rouge">frontControllerPath</code> Method</h4>
+
+<p>The <code class="highlighter-rouge">frontControllerPath</code> method should return the fully qualified path to your application’s “front controller”, which is typically your “index.php” file or equivalent:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="sd">/**
+     * Get the fully resolved path to the application's front controller.
+     *
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
+     * @return string
+     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">frontControllerPath</span><span class="p">(</span><span class="nv">$sitePath</span><span class="p">,</span> <span class="nv">$siteName</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$sitePath</span><span class="o">.</span><span class="s1">'/public/index.php'</span><span class="p">;</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
+
+<p><a name="local-drivers"></a></p>
+<h3 id="local-drivers">Local Drivers</h3>
+
+<p>If you would like to define a custom Valet driver for a single application, create a <code class="highlighter-rouge">LocalValetDriver.php</code> in the application’s root directory. Your custom driver may extend the base <code class="highlighter-rouge">ValetDriver</code> class or extend an existing application specific driver such as the <code class="highlighter-rouge">LaravelValetDriver</code>:</p>
+
+<div class="language-php highlighter-rouge"><pre class="highlight"><code>    <span class="k">class</span> <span class="nc">LocalValetDriver</span> <span class="k">extends</span> <span class="nx">LaravelValetDriver</span>
+    <span class="p">{</span>
+        <span class="sd">/**
+         * Determine if the driver serves the request.
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return bool
+         */</span>
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">serves</span><span class="p">(</span><span class="nv">$sitePath</span><span class="p">,</span> <span class="nv">$siteName</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="sd">/**
+         * Get the fully resolved path to the application's front controller.
+         *
+         * @param  string  $sitePath
+         * @param  string  $siteName
+         * @param  string  $uri
+         * @return string
+         */</span>
+        <span class="k">public</span> <span class="k">function</span> <span class="nf">frontControllerPath</span><span class="p">(</span><span class="nv">$sitePath</span><span class="p">,</span> <span class="nv">$siteName</span><span class="p">,</span> <span class="nv">$uri</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$sitePath</span><span class="o">.</span><span class="s1">'/public_html/index.php'</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+</code></pre>
+</div>
 
 <h2 id="other-valet-commands"><a name="other-valet-commands">Other Valet Commands</a></h2>
 

@@ -330,11 +330,20 @@ h1, h2, h3, h4, h5, h6 { -webkit-font-smoothing: antialiased; }
 .main-content h1 { font-size: 48px; font-weight: 200; }
 .main-content p { line-height: 1.5; margin: 10px 0 20px; }
 .main-content p strong { -webkit-font-smoothing: antialiased; }
+.main-content code, .main-content kbd, .main-content pre, .main-content samp { font-family: "Operator Mono", "Fira Code", Consolas, Monaco, "Andale Mono", monospace; }
 .main-content pre.highlight { border: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); background: #f0f2f1; }
-.main-content pre.highlight code { color: #f4645f; font-size: 11px; text-shadow: 0 1px 0px #fff; }
-.main-content code.highlighter-rouge { background: #f0f2f1; color: #f4645f; padding: 1px 5px; border-radius: 3px; font-family: source-code-pro, monospace; font-size: 11px; text-shadow: 0 1px 0px #fff; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
-.main-content pre code, .main-content kbd, .main-content pre, .main-content samp { font-family: source-code-pro, monospace; font-size: 11px; }
-.main-content blockquote { background: #e74430; color: #fff; border-radius: 3px; margin: 10px 0 20px; padding: 10px 15px; border: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
+.main-content pre.highlight code { font-size: 11px; text-shadow: 0 1px 0px #fff; }
+.main-content code.highlighter-rouge { background: #f0f2f1; color: #f4645f; padding: 1px 5px; border-radius: 3px; font-size: 11px; text-shadow: 0 1px 0px #fff; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
+.main-content code.highlighter-rouge.language-php { color: #64B5F6; }
+.main-content .highlight .p, .main-content .highlight .sd { color: #999; }
+.main-content .highlight .s1 { color: #2E7D32; }
+.main-content .highlight .kc { font-weight: normal; color: #f4645f; }
+.main-content .highlight .k { font-weight: normal; color: #07a; }
+.main-content .highlight .nv { color: #64B5F6; }
+.main-content .highlight .o, .main-content .highlight .nb, .main-content .highlight .nf { color: #525252; }
+.main-content .highlight .nx, .main-content .highlight .nc { color: #525252; }
+.main-content pre code, .main-content kbd, .main-content pre, .main-content samp { color: #525252; font-size: 11px; }
+.main-content blockquote { background: #f4645f; color: #fff; border-radius: 3px; margin: 10px 0 20px; padding: 10px 15px; border: none; box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125); }
 .main-content blockquote p:last-child { margin: 0; }
 .main-content blockquote a { color: #fff; }
 .main-content blockquote.tip { background-color: #64B5F6; }
