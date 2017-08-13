@@ -39,7 +39,7 @@ Out of the box, Valet support includes, but is not limited to:
 - [Jigsaw](http://jigsaw.tighten.co)
 - Static HTML
 
-However, you may extend Valet with your own [custom drivers](https://laravel.com/docs/5.4/valet#custom-valet-drivers).
+However, you may extend Valet with your own [custom drivers](#custom-valet-drivers).
 
 <a name="valet-or-homestead"></a>
 ### Valet Or Homestead
