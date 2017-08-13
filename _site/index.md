@@ -277,10 +277,10 @@ Command  | Description
 ------------- | -------------
 `valet forget` | Remove a "parked" directory from the list.
 `valet paths` | View all of your "parked" paths.
-`valet restart` | Restart the Valet daemon.
-`valet start` | Start the Valet daemon.
-`valet stop` | Stop the Valet daemon.
+`valet restart` | Restart the Valet services.
+`valet start` | Start the Valet services.
+`valet stop` | Stop the Valet services.
 `valet status` | View Valet services status.
-`valet uninstall` | Uninstall the Valet daemon entirely.
+`valet uninstall` | Uninstall the Valet services entirely.
 
 

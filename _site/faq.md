@@ -1,4 +1,4 @@
-[Back](index)
+[Main page](index)
 
 # F.A.Q.
 - [Why can't I run `valet install`?](#why-cant-i-run-valet-install)

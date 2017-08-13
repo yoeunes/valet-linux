@@ -359,6 +359,7 @@ h1, h2, h3, h4, h5, h6 { -webkit-font-smoothing: antialiased; }
 .main-content h2 { font-size: 30px; font-weight: 400; margin-top: 55px; margin-bottom: 15px; position: relative; }
 .main-content h2 a, .main-content h2 a:hover { color: #525252; text-decoration: none; }
 .main-content h2 a:before { content: "#"; margin-left: -25px; position: absolute; font-size: 28px; color: #f4645f; opacity: .6; }
+.main-content h2 code.highlighter-rouge { font-size: 25px; }
 .main-content h3 { font-size: 24px; font-weight: 400; margin-top: 45px; margin-bottom: 10px; }
 .main-content h4 { font-size: 16px; font-weight: 700; margin-top: 35px; margin-bottom: 10px; }
 .main-content a { text-decoration: underline; }

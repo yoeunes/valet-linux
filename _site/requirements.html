@@ -7,20 +7,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="/assets/css/style.css?v=30f582a2365dc353d0c9d47951d920496bf7d9bc">
+    <link rel="stylesheet" href="/assets/css/style.css?v=9794033ea097ef68cd246dd326f5e82dc9532d54">
   </head>
   <body>
     <section class="page-header">
       <h1 class="project-name">Valet Linux</h1>
       <h2 class="project-tagline">A fork of Laravel Valet to work in Linux.</h2>
       
-        <a href="http://github.com/cpriego/valet-ubuntu" class="btn">View on GitHub</a>
+        <a href="http://github.com/cpriego/valet-linux" class="btn">View on GitHub</a>
       
       
     </section>
 
     <section class="main-content">
-      <p><a href="index">Back</a></p>
+      <p><a href="index">Main page</a></p>
 
 <h1 id="requirements">Requirements</h1>
 <ul>
@@ -36,20 +36,43 @@
     </ul>
   </li>
   <li><a href="#arch">Arch Linux</a></li>
-  <li><a href="#sudo">Sudo</a></li>
+  <li><a href="#sudo">Regarding sudo and root user</a></li>
 </ul>
 
 <h2 id="ubuntu-and-derivates"><a name="ubuntu">Ubuntu (and derivates)</a></h2>
 
-<ul>
-  <li>Ubuntu &gt;= 14.04</li>
-  <li>OS dependencies: <code class="highlighter-rouge">sudo apt-get install network-manager libnss3-tools jq xsel</code></li>
-  <li>PHP &gt;= 5.6</li>
-  <li>PHP dependencies: <code class="highlighter-rouge">php*-cli php*-curl php*-mbstring php*-mcrypt php*-xml php*-zip</code></li>
-  <li>Optional PHP Packages: <code class="highlighter-rouge">php*-sqlite3 php*-mysql php*-pgsql</code></li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ubuntu version</td>
+      <td>14.04+</td>
+    </tr>
+    <tr>
+      <td>OS packages</td>
+      <td><code class="highlighter-rouge">sudo apt-get install network-manager libnss3-tools jq xsel</code></td>
+    </tr>
+    <tr>
+      <td>PHP version</td>
+      <td>5.6+</td>
+    </tr>
+    <tr>
+      <td>PHP extensions</td>
+      <td><code class="highlighter-rouge">php*-cli php*-curl php*-mbstring php*-mcrypt php*-xml php*-zip</code></td>
+    </tr>
+    <tr>
+      <td>Optional packages</td>
+      <td><code class="highlighter-rouge">php*-sqlite3 php*-mysql php*-pgsql</code></td>
+    </tr>
+  </tbody>
+</table>
 
-<p><strong>Replace the star <em>(*)</em> with your php version</strong></p>
+<p><em>Replace the star <strong>*</strong> with your php version.</em></p>
 
 <p><a name="1404"></a></p>
 <h3 id="ubuntu-1404">Ubuntu 14.04</h3>
@@ -70,15 +93,39 @@ sudo apt-get update
   <li>Development: Only if I have the time. Development version are extremely unstable and prone to change. It is <strong>very</strong> difficult to isolate any issue.</li>
 </ul>
 
+<hr />
 <h2 id="fedora-and-derivates"><a name="fedora">Fedora (and derivates)</a></h2>
 
-<ul>
-  <li>Fedora &gt;= 24</li>
-  <li>OS dependencies: <code class="highlighter-rouge">dnf install nss-tools jq xsel</code></li>
-  <li>PHP &gt;= 5.6</li>
-  <li>PHP Extensions: <code class="highlighter-rouge">cli, curl, mbstring, mcrypt, xml, zip</code></li>
-  <li>Optional PHP Packages: <code class="highlighter-rouge">sqlite3, mysql, pgsql</code></li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Fedora version</td>
+      <td>24+</td>
+    </tr>
+    <tr>
+      <td>OS packages</td>
+      <td><code class="highlighter-rouge">dnf install nss-tools jq xsel</code></td>
+    </tr>
+    <tr>
+      <td>PHP version</td>
+      <td>5.6+</td>
+    </tr>
+    <tr>
+      <td>PHP extensions</td>
+      <td><code class="highlighter-rouge">cli, curl, mbstring, mcrypt, xml, zip</code></td>
+    </tr>
+    <tr>
+      <td>Optional packages</td>
+      <td><code class="highlighter-rouge">sqlite3, mysql, pgsql</code></td>
+    </tr>
+  </tbody>
+</table>
 
 <p><a name="selinux"></a></p>
 <h3 id="regarding-selinux">Regarding SELinux</h3>
@@ -98,25 +145,51 @@ sudo apt-get update
   <li>Reboot</li>
 </ul>
 
+<hr />
 <h2 id="arch-and-derivates"><a name="arch">Arch (and derivates)</a></h2>
 
-<ul>
-  <li>OS dependencies: <code class="highlighter-rouge">pacman -S nss jq xsel networkmanager</code></li>
-  <li>PHP &gt;= 5.6</li>
-  <li>PHP Extensions: <code class="highlighter-rouge">cli, curl, mbstring, mcrypt, xml, zip</code></li>
-  <li>Optional PHP Packages: <code class="highlighter-rouge">sqlite3, mysql, pgsql</code></li>
-</ul>
+<table>
+  <thead>
+    <tr>
+      <th>Requirement</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>OS packages</td>
+      <td><code class="highlighter-rouge">pacman -S nss jq xsel networkmanager</code></td>
+    </tr>
+    <tr>
+      <td>PHP version</td>
+      <td><code class="highlighter-rouge">pacman -S php</code> ( need <strong>&gt;= 5.6</strong> ; check version with <code class="highlighter-rouge">php -v</code> after installing)</td>
+    </tr>
+    <tr>
+      <td>PHP extensions</td>
+      <td><code class="highlighter-rouge">php-mcrypt</code> ( <code class="highlighter-rouge">php</code> package comes with a lot of compiled in modules. Including <code class="highlighter-rouge">cli, curl, mbstring, xml, zip</code>. If you don’t find an extension, it could be that it is now a part of the <code class="highlighter-rouge">php</code> package. To check compiled in modules run <code class="highlighter-rouge">php -m</code>)</td>
+    </tr>
+    <tr>
+      <td>Optional packages</td>
+      <td><a href="https://wiki.archlinux.org/index.php/PHP#Sqlite">php-sqlite</a>, <a href="https://wiki.archlinux.org/index.php/PHP#MySQL.2FMariaDB">mysql/mariadb</a>, <a href="https://wiki.archlinux.org/index.php/PHP#PostgreSQL">php-pgsql</a></td>
+    </tr>
+    <tr>
+      <td>Composer</td>
+      <td>Install <a href="https://wiki.archlinux.org/index.php/PHP#Composer">composer</a>, php package manager</td>
+    </tr>
+  </tbody>
+</table>
 
-<h2 id="sudo"><a name="sudo">Sudo</a></h2>
+<hr />
+<h2 id="regarding-sudo-and-root-user"><a name="sudo">Regarding <code class="highlighter-rouge">sudo</code> and <code class="highlighter-rouge">root</code> user</a></h2>
 
 <p>Valet makes automatic use of <strong><code class="highlighter-rouge">sudo</code></strong> to perform some of its tasks. This implies that for Valet to perform correctly your user needs to be configured as a <strong>sudo</strong> user.</p>
 
-<p>Please <strong>do not, under any circumstance, install valet with root OR the <code class="highlighter-rouge">sudo</code> command</strong>. Kittens could die.</p>
+<p>Please <strong>do not, under any circumstance, install valet with <code class="highlighter-rouge">root</code> or the <code class="highlighter-rouge">sudo</code> command</strong>. Kittens could die.</p>
 
 
       <footer class="site-footer">
         
-          <span class="site-footer-owner"><a href="http://github.com/cpriego/valet-ubuntu">valet-ubuntu</a> is maintained by <a href="http://github.com/cpriego">cpriego</a>.</span>
+          <span class="site-footer-owner"><a href="http://github.com/cpriego/valet-linux">valet-linux</a> is maintained by <a href="http://github.com/cpriego">cpriego</a>.</span>
         
         <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
       </footer>

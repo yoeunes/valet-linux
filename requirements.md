@@ -71,9 +71,10 @@ Permanent:
 Requirement | Description
 ------------- | -------------
 OS packages | `pacman -S nss jq xsel networkmanager`
-PHP version | 5.6+
-PHP extensions | `cli, curl, mbstring, mcrypt, xml, zip`
-Optional packages| `sqlite3, mysql, pgsql`
+PHP version | `pacman -S php` ( need **>= 5.6** ; check version with `php -v` after installing)
+PHP extensions | `php-mcrypt` ( `php` package comes with a lot of compiled in modules. Including `cli, curl, mbstring, xml, zip`. If you don't find an extension, it could be that it is now a part of the `php` package. To check compiled in modules run `php -m`)
+Optional packages | [php-sqlite](https://wiki.archlinux.org/index.php/PHP#Sqlite), [mysql/mariadb](https://wiki.archlinux.org/index.php/PHP#MySQL.2FMariaDB), [php-pgsql](https://wiki.archlinux.org/index.php/PHP#PostgreSQL)
+Composer | Install [composer](https://wiki.archlinux.org/index.php/PHP#Composer), php package manager
 
 -----
 ## <a name="sudo">Regarding `sudo` and `root` user</a>

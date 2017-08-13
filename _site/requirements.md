@@ -1,4 +1,4 @@
-[Back](index)
+[Main page](index)
 
 # Requirements
 - [Ubuntu](#ubuntu)
@@ -7,17 +7,19 @@
 - [Fedora](#fedora)
     - [SELinux](#selinux)
 - [Arch Linux](#arch)
-- [Sudo](#sudo)
+- [Regarding sudo and root user](#sudo)
 
 ## <a name="ubuntu">Ubuntu (and derivates)</a>
 
- - Ubuntu >= 14.04
- - OS dependencies: `sudo apt-get install network-manager libnss3-tools jq xsel`
- - PHP >= 5.6
- - PHP dependencies: `php*-cli php*-curl php*-mbstring php*-mcrypt php*-xml php*-zip`
- - Optional PHP Packages: `php*-sqlite3 php*-mysql php*-pgsql`
+Requirement | Description
+------------- | -------------
+Ubuntu version | 14.04+
+OS packages | `sudo apt-get install network-manager libnss3-tools jq xsel`
+PHP version | 5.6+
+PHP extensions | `php*-cli php*-curl php*-mbstring php*-mcrypt php*-xml php*-zip`
+Optional packages | `php*-sqlite3 php*-mysql php*-pgsql`
 
-**Replace the star _(*)_ with your php version**
+_Replace the star **\*** with your php version._
 
 <a name="1404"></a>
 ### Ubuntu 14.04
@@ -36,13 +38,16 @@ sudo apt-get update
  - Non-LTS: Only get 9 months. You *should* update anyway.
  - Development: Only if I have the time. Development version are extremely unstable and prone to change. It is **very** difficult to isolate any issue.
 
+-----
 ## <a name="fedora">Fedora (and derivates)</a>
- 
- - Fedora >= 24
- - OS dependencies: `dnf install nss-tools jq xsel`
- - PHP >= 5.6
- - PHP Extensions: `cli, curl, mbstring, mcrypt, xml, zip`
- - Optional PHP Packages: `sqlite3, mysql, pgsql`
+
+Requirement | Description
+------------- | -------------
+Fedora version | 24+
+OS packages | `dnf install nss-tools jq xsel`
+PHP version | 5.6+
+PHP extensions | `cli, curl, mbstring, mcrypt, xml, zip`
+Optional packages | `sqlite3, mysql, pgsql`
 
 <a name="selinux"></a>
 ### Regarding SELinux
@@ -60,16 +65,20 @@ Permanent:
  - Change `SELINUX=enforcing` to `SELINUX=permissive`
  - Reboot
 
-
+-----
 ## <a name="arch">Arch (and derivates)</a>
 
- - OS dependencies: `pacman -S nss jq xsel networkmanager`
- - PHP >= 5.6
- - PHP Extensions: `cli, curl, mbstring, mcrypt, xml, zip`
- - Optional PHP Packages: `sqlite3, mysql, pgsql`
+Requirement | Description
+------------- | -------------
+OS packages | `pacman -S nss jq xsel networkmanager`
+PHP version | `pacman -S php` ( need **>= 5.6** ; check version with `php -v` after installing)
+PHP extensions | `php-mcrypt` ( `php` package comes with a lot of compiled in modules. Including `cli, curl, mbstring, xml, zip`. If you don't find an extension, it could be that it is now a part of the `php` package. To check compiled in modules run `php -m`)
+Optional packages | [php-sqlite](https://wiki.archlinux.org/index.php/PHP#Sqlite), [mysql/mariadb](https://wiki.archlinux.org/index.php/PHP#MySQL.2FMariaDB), [php-pgsql](https://wiki.archlinux.org/index.php/PHP#PostgreSQL)
+Composer | Install [composer](https://wiki.archlinux.org/index.php/PHP#Composer), php package manager
 
-## <a name="sudo">Sudo</a>
+-----
+## <a name="sudo">Regarding `sudo` and `root` user</a>
 
 Valet makes automatic use of **`sudo`** to perform some of its tasks. This implies that for Valet to perform correctly your user needs to be configured as a **sudo** user.
 
-Please **do not, under any circumstance, install valet with root OR the `sudo` command**. Kittens could die.
+Please **do not, under any circumstance, install valet with `root` or the `sudo` command**. Kittens could die.
