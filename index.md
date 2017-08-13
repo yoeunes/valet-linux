@@ -52,7 +52,7 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
 
 ## <a name="installation">Installation</a>
 
- - Install Valet with Composer via `composer global require cpriego/valet-linux`.
+ - Install Valet with [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx) via `composer global require cpriego/valet-linux`.
  - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 
 Once Valet is installed, try pinging any `*.dev` domain on your terminal using a command such as `ping foobar.dev`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
