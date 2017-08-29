@@ -46,7 +46,7 @@ Requirement | Description
 Fedora version | 24+
 OS packages | `dnf install nss-tools jq xsel`
 PHP version | 5.6+
-PHP extensions | `cli, curl, mbstring, mcrypt, xml, zip`
+PHP extensions | `dnf install php-{cli,process,mbstring,mcrypt,xml}`
 Optional packages | `sqlite3, mysql, pgsql`
 
 <a name="selinux"></a>
