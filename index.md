@@ -21,7 +21,7 @@ Please **do not, under any circumstance, install valet with** root **or the** `s
 
 Valet *Linux* is a Laravel development environment for Linux minimalists. No Vagrant, no `/etc/hosts` file. You can even share your sites publicly using local tunnels. _Yeah, we like it too._
 
-Valet *Linux* configures your system to always run Nginx in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.dev` domain to point to sites installed on your local machine.
+Valet *Linux* configures your system to always run Nginx in the background when your machine starts. Then, using [DnsMasq](https://en.wikipedia.org/wiki/Dnsmasq), Valet proxies all requests on the `*.test` domain to point to sites installed on your local machine.
 
 In other words, a blazing fast Laravel development environment that uses roughly 7mb of RAM. Valet *Linux* isn't a complete replacement for Vagrant or Homestead, but provides a great alternative if you want flexible basics, prefer extreme speed, or are working on a machine with a limited amount of RAM.
 
@@ -55,7 +55,7 @@ Both Valet and Homestead are great choices for configuring your Laravel developm
  - Install Valet with [Composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx) via `composer global require cpriego/valet-linux`.
  - Run the `valet install` command. This will configure and install Valet and DnsMasq, and register Valet's daemon to launch when your system starts.
 
-Once Valet is installed, try pinging any `*.dev` domain on your terminal using a command such as `ping foobar.dev`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
+Once Valet is installed, try pinging any `*.test` domain on your terminal using a command such as `ping foobar.test`. If Valet is installed correctly you should see this domain responding on `127.0.0.1`.
 
 Valet will automatically start its daemon each time your machine boots. There is no need to run `valet start` or `valet install` ever again once the initial Valet installation is complete.
 
@@ -67,9 +67,9 @@ Valet will automatically start its daemon each time your machine boots. There is
 
 #### Using Another Domain
 
-By default, Valet serves your projects using the `.dev` TLD. If you'd like to use another domain, you can do so using the `valet domain tld-name` command.
+By default, Valet serves your projects using the `.test` TLD. If you'd like to use another domain, you can do so using the `valet domain tld-name` command.
 
-For example, if you'd like to use `.app` instead of `.dev`, run `valet domain app` and Valet will start serving your projects at `*.app` automatically.
+For example, if you'd like to use `.app` instead of `.test`, run `valet domain app` and Valet will start serving your projects at `*.app` automatically.
 
 <a name="upgrading"></a>
 ### Upgrading
@@ -86,9 +86,9 @@ Once Valet is installed, you're ready to start serving sites. Valet provides two
 
 - Create a new directory on your machine by running something like `mkdir ~/Sites`. Next, `cd ~/Sites` and run `valet park`. This command will register your current working directory as a path that Valet should search for sites.
 - Next, create a new Laravel site within this directory: `laravel new blog`.
-- Open `http://blog.dev` in your browser.
+- Open `http://blog.test` in your browser.
 
-**That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.dev` convention.
+**That's all there is to it.** Now, any Laravel project you create within your "parked" directory will automatically be served using the `http://folder-name.test` convention.
 
 <a name="the-link-command"></a>
 **The `link` Command**
@@ -97,7 +97,7 @@ The `link` command may also be used to serve your Laravel sites. This command is
 
 
 - To use the command, navigate to one of your projects and run `valet link app-name` in your terminal. Valet will create a symbolic link in `~/.valet/Sites` which points to your current working directory.
-- After running the `link` command, you can access the site in your browser at `http://app-name.dev`.
+- After running the `link` command, you can access the site in your browser at `http://app-name.test`.
 
 To see a listing of all of your linked directories, run the `valet links` command. You may use `valet unlink app-name` to destroy the symbolic link.
 
@@ -107,7 +107,7 @@ To see a listing of all of your linked directories, run the `valet links` comman
 <a name="changing-tld"></a>
 **Changing domain TLD**
 
-After installation all valet sites are assigned the `.dev` TLD, so if you have a folder named `foo` it will have the `foo.dev` URL.
+After installation all valet sites are assigned the `.test` TLD, so if you have a folder named `foo` it will have the `foo.test` URL.
 
 If you would like to change the TLD for all your valet sites use the `domain` command.
 
