@@ -3,6 +3,7 @@
     - [Valet Or Homestead](#valet-or-homestead)
 - [Installation](#installation)
     - [Upgrading](#upgrading)
+    - [Uninstalling](#uninstalling)
 - [Serving Sites](#serving-sites)
     - [The "Park" Command](#the-park-command)
     - [The "Link" Command](#the-link-command)
@@ -76,10 +77,23 @@ For example, if you'd like to use `.app` instead of `.test`, run `valet domain a
 
 You may update your Valet installation using the `composer global update` command in your terminal. After upgrading, it is good practice to run the `valet install` command so Valet can make additional upgrades to your configuration files if necessary.
 
+<a name="uninstalling"></a>
+### Uninstalling
+After uninstalling valet some people are experiencing some problems.
+Here is a series of commands that you could use to fix your problem (For Ubuntu users) Thanks to @dakira for this guide.
+- rm /opt/valet
+- remove valet-specific settings in /etc/NetworkManager/{conf.d,dnsmasq.d}
+- remove /etc/dnsmasq.d/{valet,options}
+- Make sure resolved is running, if not, enable and start it systemctl status systemd-resolved.
+- remove the dnsmasq package (leaving dnsmasq-base!)
+- rm /etc/resolv.conf && ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf
+- restart NetworkManager systemctl restart NetworkManager.service
+
 
 ## <a name="serving-sites">Serving Sites</a>
 
 Once Valet is installed, you're ready to start serving sites. Valet provides two commands to help you serve your Laravel sites: `park` and `link`.
+
 
 <a name="the-park-command"></a>
 **The `park` Command**
