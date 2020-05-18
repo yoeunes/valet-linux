@@ -84,7 +84,7 @@ Here is a series of commands that you could use to fix your problem (For Ubuntu 
 - `rm /opt/valet`
 - check the folders /etc/NetworkManager/{conf.d,dnsmasq.d} for valet-specific settings and remove them
 - remove the files /etc/dnsmasq.d/{valet,options}
-- Make sure systemd-resolved is running, if not, enable and start it (`systemctl status systemd-resolved`).
+- Make sure systemd-resolved is running (`systemctl status systemd-resolved`), if not, enable (`systemctl enable systemd-resolved`) and start it (`systemctl start systemd-resolved`).
 - remove the dnsmasq package (leaving dnsmasq-base!)
 - make sure /etc/resolv.conf is a symlink to /run/systemd/resolve/resolv.conf
 - restart NetworkManager `systemctl restart NetworkManager`
