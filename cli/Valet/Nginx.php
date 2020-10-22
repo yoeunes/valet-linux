@@ -161,7 +161,11 @@ class Nginx
      */
     public function rewriteSecureNginxFiles()
     {
-        $domain = $this->configuration->read()['domain'];
+        $domain = $this->configuration->read()['domain'] ?? null;
+
+        if (! $domain) {
+            return;
+        }
 
         $this->site->resecureForNewDomain($domain, $domain);
     }
