@@ -55,7 +55,7 @@ then
 
     if [[ "$EUID" -ne 0 ]]
     then
-        sudo env HOME=$HOMEPATH $SOURCE "$@"
+        sudo -i env HOME=$HOMEPATH $SOURCE "$@"
         exit 0
     fi
 fi
@@ -64,7 +64,7 @@ if [[ -n $2 && "domain port" =~ $1 ]]
 then
     if [[ "$EUID" -ne 0 ]]
     then
-        sudo env HOME=$HOMEPATH $SOURCE "$@"
+        sudo -i env HOME=$HOMEPATH $SOURCE "$@"
         exit 0
     fi
 fi
@@ -98,7 +98,7 @@ then
 
     # Fetch Ngrok URL In Background...
     bash "$DIR/cli/scripts/fetch-share-url.sh" &
-    sudo -u $USER "$DIR/bin/ngrok" http "$HOST.$DOMAIN:$PORT" -host-header=rewrite ${*:2}
+    sudo -i -u $USER "$DIR/bin/ngrok" http "$HOST.$DOMAIN:$PORT" -host-header=rewrite ${*:2}
     exit
 
 # Finally, for every other command we will just proxy into the PHP tool
