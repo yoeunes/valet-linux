@@ -5,9 +5,9 @@ abstract class ValetDriver
     /**
      * Determine if the driver serves the request.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return bool
      */
     abstract public function serves($sitePath, $siteName, $uri);
@@ -15,9 +15,9 @@ abstract class ValetDriver
     /**
      * Determine if the incoming request is for a static file.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return string|false
      */
     abstract public function isStaticFile($sitePath, $siteName, $uri);
@@ -25,9 +25,9 @@ abstract class ValetDriver
     /**
      * Get the fully resolved path to the application's front controller.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return string
      */
     abstract public function frontControllerPath($sitePath, $siteName, $uri);
@@ -35,9 +35,9 @@ abstract class ValetDriver
     /**
      * Find a driver that can serve the incoming request.
      *
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return ValetDriver|null
      */
     public static function assign($sitePath, $siteName, $uri)
@@ -48,7 +48,7 @@ abstract class ValetDriver
             $drivers[] = $customSiteDriver;
         }
 
-        $drivers = array_merge($drivers, static::driversIn(VALET_HOME_PATH . '/Drivers'));
+        $drivers = array_merge($drivers, static::driversIn(VALET_HOME_PATH.'/Drivers'));
 
         $drivers[] = 'LaravelValetDriver';
 
@@ -60,7 +60,6 @@ abstract class ValetDriver
         $drivers[] = 'StatamicValetDriver';
         $drivers[] = 'StatamicV1ValetDriver';
         $drivers[] = 'CakeValetDriver';
-        $drivers[] = 'Cake2ValetDriver';
         $drivers[] = 'SculpinValetDriver';
         $drivers[] = 'JigsawValetDriver';
         $drivers[] = 'KirbyValetDriver';
@@ -86,16 +85,16 @@ abstract class ValetDriver
     /**
      * Get the custom driver class from the site path, if one exists.
      *
-     * @param string $sitePath
+     * @param  string  $sitePath
      * @return string
      */
     public static function customSiteDriver($sitePath)
     {
-        if (!file_exists($sitePath . '/LocalValetDriver.php')) {
+        if (! file_exists($sitePath.'/LocalValetDriver.php')) {
             return;
         }
 
-        require_once $sitePath . '/LocalValetDriver.php';
+        require_once $sitePath.'/LocalValetDriver.php';
 
         return 'LocalValetDriver';
     }
@@ -103,23 +102,25 @@ abstract class ValetDriver
     /**
      * Get all of the driver classes in a given path.
      *
-     * @param string $path
+     * @param  string  $path
      * @return array
      */
     public static function driversIn($path)
     {
-        if (!is_dir($path)) {
+        if (! is_dir($path)) {
             return [];
         }
 
         $drivers = [];
 
-        foreach (scandir($path) as $file) {
-            if ($file !== 'ValetDriver.php' && strpos($file, 'ValetDriver') !== false) {
-                require_once $path . '/' . $file;
+        $dir = new RecursiveDirectoryIterator($path);
+        $iterator = new RecursiveIteratorIterator($dir);
+        $regex = new RegexIterator($iterator, '/^.+ValetDriver\.php$/i', RecursiveRegexIterator::GET_MATCH);
 
-                $drivers[] = basename($file, '.php');
-            }
+        foreach ($regex as $file) {
+            require_once $file[0];
+
+            $drivers[] = basename($file[0], '.php');
         }
 
         return $drivers;
@@ -128,7 +129,7 @@ abstract class ValetDriver
     /**
      * Mutate the incoming URI.
      *
-     * @param string $uri
+     * @param  string  $uri
      * @return string
      */
     public function mutateUri($uri)
@@ -139,10 +140,10 @@ abstract class ValetDriver
     /**
      * Serve the static file at the given path.
      *
-     * @param string $staticFilePath
-     * @param string $sitePath
-     * @param string $siteName
-     * @param string $uri
+     * @param  string  $staticFilePath
+     * @param  string  $sitePath
+     * @param  string  $siteName
+     * @param  string  $uri
      * @return void
      */
     public function serveStaticFile($staticFilePath, $sitePath, $siteName, $uri)
@@ -171,26 +172,29 @@ abstract class ValetDriver
     /**
      * Determine if the path is a file and not a directory.
      *
-     * @param string $path
+     * @param  string  $path
      * @return bool
      */
     protected function isActualFile($path)
     {
-        return !is_dir($path) && file_exists($path);
+        return ! is_dir($path) && file_exists($path);
     }
 
     /**
      * Load server environment variables if available.
      * Processes any '*' entries first, and then adds site-specific entries
      *
-     * @param string $sitePath
-     * @param string $siteName
+     * @param  string  $sitePath
+     * @param  string  $siteName
      * @return void
      */
     public function loadServerEnvironmentVariables($sitePath, $siteName)
     {
         $varFilePath = $sitePath . '/.valet-env.php';
-        if (!file_exists($varFilePath)) {
+        if (! file_exists($varFilePath)) {
+            $varFilePath = VALET_HOME_PATH . '/.valet-env.php';
+        }
+        if (! file_exists($varFilePath)) {
             return;
         }
 
@@ -203,10 +207,11 @@ abstract class ValetDriver
         }
 
         foreach ($variablesToSet as $key => $value) {
-            if (!is_string($key)) continue;
+            if (! is_string($key)) continue;
             $_SERVER[$key] = $value;
             $_ENV[$key] = $value;
             putenv($key . '=' . $value);
         }
     }
+
 }
