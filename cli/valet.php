@@ -149,10 +149,14 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Register a symbolic link with Valet.
      */
-    $app->command('link [name]', function ($name) {
+    $app->command('link [name] [--secure]', function ($name, $secure) {
         $linkPath = Site::link(getcwd(), $name = $name ?: basename(getcwd()));
 
         info('A [' . $name . '] symbolic link has been created in [' . $linkPath . '].');
+
+        if ($secure) {
+            $this->runCommand('secure '.$name);
+        }
     })->descriptions('Link the current working directory to Valet');
 
     /**
@@ -189,8 +193,13 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Stop serving the given domain over HTTPS and remove the trusted TLS certificate.
      */
-    $app->command('unsecure [domain]', function ($domain = null) {
-        $url = rtrim(($domain ?: Site::host(getcwd())), '/') . '.' . Configuration::read()['domain'];
+    $app->command('unsecure [domain] [--all]', function ($domain = null, $all = null) {
+        if ($all) {
+            Site::unsecureAll();
+            return;
+        }
+
+        $url = ($domain ?: Site::host(getcwd())).'.'.Configuration::read()['domain'];
 
         Site::unsecure($url);
         PhpFpm::restart();
@@ -198,6 +207,38 @@ if (is_dir(VALET_HOME_PATH)) {
 
         info('The [' . $url . '] site will now serve traffic over HTTP.');
     })->descriptions('Stop serving the given domain over HTTPS and remove the trusted TLS certificate');
+
+        /**
+     * Create an Nginx proxy config for the specified domain
+     */
+    $app->command('proxy domain host', function ($domain, $host) {
+
+        Site::proxyCreate($domain, $host);
+
+        PhpFpm::restart();
+        Nginx::restart();
+
+    })->descriptions('Create an Nginx proxy site for the specified host. Useful for docker, mailhog etc.');
+
+    /**
+     * Delete an Nginx proxy config
+     */
+    $app->command('unproxy domain', function ($domain) {
+
+        Site::proxyDelete($domain);
+        PhpFpm::restart();
+        Nginx::restart();
+
+    })->descriptions('Delete an Nginx proxy config.');
+
+    /**
+     * Display all of the sites that are proxies.
+     */
+    $app->command('proxies', function () {
+        $proxies = Site::proxies();
+
+        table(['Site', 'SSL', 'URL', 'Host'], $proxies->all());
+    })->descriptions('Display all of the proxy sites');
 
     /**
      * Determine which Valet driver the current directory is using.
@@ -263,11 +304,29 @@ if (is_dir(VALET_HOME_PATH)) {
     /**
      * Restart the daemon services.
      */
-    $app->command('restart', function () {
-        PhpFpm::restart();
-        Nginx::restart();
+    $app->command('restart [service]', function ($service) {
+        switch ($service) {
+            case '':
+//                DnsMasq::restart();
+                PhpFpm::restart();
+                Nginx::restart();
 
-        info('Valet services have been restarted.');
+                return info('Valet services have been started.');
+            case 'dnsmasq':
+                DnsMasq::restart();
+
+                return info('dnsmasq has been started.');
+            case 'nginx':
+                Nginx::restart();
+
+                return info('Nginx has been started.');
+            case 'php':
+                PhpFpm::restart();
+
+                return info('PHP has been started.');
+        }
+
+        return warning(sprintf('Invalid valet service name [%s]', $service));
     })->descriptions('Restart the Valet services');
 
     /**
@@ -314,6 +373,7 @@ if (is_dir(VALET_HOME_PATH)) {
      */
     $app->command('use [preferedversion]', function ($preferedversion = null) {
         info('Changing php-fpm version...');
+        info('This does not affect php -v.');
         PhpFpm::changeVersion($preferedversion);
         info('php-fpm version successfully changed! 🎉');
     })->descriptions('Set the PHP-fpm version to use, enter "default" or leave empty to use version: ' . PhpFpm::getVersion(true));

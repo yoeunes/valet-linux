@@ -19,6 +19,35 @@ if (!function_exists('show_valet_404')) {
     }
 }
 
+/**
+ * Show directory listing or 404 if directory doesn't exist.
+ */
+function show_directory_listing($valetSitePath, $uri)
+{
+    $is_root = ($uri == '/');
+    $directory = ($is_root) ? $valetSitePath : $valetSitePath.$uri;
+
+    if (!file_exists($directory)) {
+        show_valet_404();
+    }
+
+    // Sort directories at the top
+    $paths = glob("$directory/*");
+    usort($paths, function ($a, $b) {
+        return (is_dir($a) == is_dir($b)) ? strnatcasecmp($a, $b) : (is_dir($a) ? -1 : 1);
+    });
+
+    // Output the HTML for the directory listing
+    echo "<h1>Index of $uri</h1>";
+    echo "<hr>";
+    echo implode("<br>\n", array_map(function ($path) use ($uri, $is_root) {
+        $file = basename($path);
+        return ($is_root) ? "<a href='/$file'>/$file</a>" : "<a href='$uri/$file'>$uri/$file/</a>";
+    }, $paths));
+
+    exit;
+}
+
 if (!function_exists('valet_support_xip_io')) {
 /**
  * @param $domain string Domain to filter
@@ -159,26 +188,48 @@ if (strpos($siteName, 'www.') === 0) {
  * Determine the fully qualified path to the site.
  */
 $valetSitePath = null;
+$domain = array_slice(explode('.', $siteName), -1)[0];
+
+//foreach ($valetConfig['paths'] as $path) {
+//    $domain = ($pos = strrpos($siteName, '.')) !== false
+//    ? substr($siteName, $pos + 1)
+//    : null;
+//
+//    foreach (glob($path . '/*', GLOB_ONLYDIR) as $dirPath) {
+//        $slug = valet_path_to_slug($dirPath);
+//
+//        if ($slug == $siteName || $slug == $domain) {
+//            $valetSitePath = $dirPath;
+//
+//            break 2;
+//        }
+//    }
+//}
 
 foreach ($valetConfig['paths'] as $path) {
-    $domain = ($pos = strrpos($siteName, '.')) !== false
-    ? substr($siteName, $pos + 1)
-    : null;
+    if ($handle = opendir($path)) {
+        while (false !== ($file = readdir($handle))) {
+            if (! is_dir($path.'/'.$file)) continue;
+            if (in_array($file, ['.', '..', '.DS_Store'])) continue;
 
-    foreach (glob($path . '/*', GLOB_ONLYDIR) as $dirPath) {
-        $slug = valet_path_to_slug($dirPath);
-
-        if ($slug == $siteName || $slug == $domain) {
-            $valetSitePath = $dirPath;
-
-            break 2;
+            // match dir for lowercase, because Nginx only tells us lowercase names
+            if (strtolower($file) === $siteName) {
+                $valetSitePath = $path.'/'.$file;
+                break;
+            }
+            if (strtolower($file) === $domain) {
+                $valetSitePath = $path.'/'.$file;
+            }
         }
+        closedir($handle);
     }
 }
 
 if (is_null($valetSitePath) && is_null($valetSitePath = valet_default_site_path($valetConfig))) {
     show_valet_404();
 }
+
+$valetSitePath = realpath($valetSitePath);
 
 /**
  * Find the appropriate Valet driver for the request.
@@ -196,9 +247,16 @@ if (!$valetDriver) {
 /**
  * Overwrite the HTTP host for Ngrok.
  */
-if (isset($_SERVER['HTTP_X_ORIGINAL_HOST'])) {
-    $_SERVER['HTTP_HOST'] = $_SERVER['HTTP_X_ORIGINAL_HOST'];
+if (isset($_SERVER['HTTP_X_ORIGINAL_HOST']) && !isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+    $_SERVER['HTTP_X_FORWARDED_HOST'] = $_SERVER['HTTP_X_ORIGINAL_HOST'];
 }
+
+/**
+ * Attempt to load server environment variables.
+ */
+$valetDriver->loadServerEnvironmentVariables(
+    $valetSitePath, $siteName
+);
 
 /**
  * Allow driver to mutate incoming URL.
@@ -222,6 +280,14 @@ if ($uri !== '/' && !$isPhpFile && $staticFilePath = $valetDriver->isStaticFile(
 $frontControllerPath = $valetDriver->frontControllerPath(
     $valetSitePath, $siteName, $uri
 );
+
+if (! $frontControllerPath) {
+    if (isset($valetConfig['directory-listing']) && $valetConfig['directory-listing'] == 'on') {
+        show_directory_listing($valetSitePath, $uri);
+    }
+
+    show_valet_404();
+}
 
 if (!$frontControllerPath) {
     show_valet_404();

@@ -41,9 +41,7 @@ class Configuration
      */
     public function uninstall()
     {
-        if ($this->files->isDir(VALET_HOME_PATH, user())) {
-            $this->files->remove(VALET_HOME_PATH);
-        }
+       $this->files->unlink(VALET_HOME_PATH);
     }
 
     /**
@@ -53,6 +51,17 @@ class Configuration
      */
     public function createConfigurationDirectory()
     {
+//        $this->files->ensureDirExists(VALET_HOME_PATH, user());
+
+        $this->files->ensureDirExists(preg_replace('~/valet$~', '', VALET_HOME_PATH), user());
+
+        $oldPath = posix_getpwuid(fileowner(__FILE__))['dir'].'/.valet';
+
+        if ($this->files->isDir($oldPath)) {
+            rename($oldPath, VALET_HOME_PATH);
+            $this->prependPath(VALET_HOME_PATH.'/Sites');
+        }
+
         $this->files->ensureDirExists(VALET_HOME_PATH, user());
     }
 
@@ -123,8 +132,19 @@ class Configuration
     public function writeBaseConfiguration()
     {
         if (!$this->files->exists($this->path())) {
-            $this->write(['domain' => 'test', 'paths' => [], 'port' => '80']);
+            $this->write(['domain' => 'test', 'tldr' => 'test', 'paths' => [], 'port' => '80']);
         }
+
+        /**
+         * Migrate old configurations from 'domain' to 'tld'
+         */
+        $config = $this->read();
+
+        if (isset($config['tld'])) {
+            return;
+        }
+
+        $this->updateKey('tld', !empty($config['domain']) ? $config['domain'] : 'test');
     }
 
     /**
@@ -162,6 +182,11 @@ class Configuration
      */
     public function removePath($path)
     {
+        if ($path == VALET_HOME_PATH.'/Sites') {
+            info("Cannot remove this directory because this is where Valet stores its site definitions.\nRun [valet paths] for a list of parked paths.");
+            die();
+        }
+
         $this->write(tap($this->read(), function (&$config) use ($path) {
             $config['paths'] = collect($config['paths'])->reject(function ($value) use ($path) {
                 return $value === $path;
